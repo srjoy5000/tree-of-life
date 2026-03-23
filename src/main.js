@@ -31,6 +31,7 @@ const envParams = {
   camera_dist: 20,
   env_light: '',
   background_color: '#000000',
+  // background_color: '#F5F2EB',
   wave_height: 1,
   wave_dia: 1,
 }
@@ -200,7 +201,10 @@ function initGUI() {
   // envFolder.add(envParams, 'show_axis')
   envFolder.add(envParams, 'camera_dist')
   envFolder.add(envParams, 'env_light')
-  envFolder.addColor(envParams, 'background_color')
+  envFolder.addColor(envParams, 'background_color').onChange((val) => {
+    console.log("New Color:", val);
+    scene.background.set(val);
+  })
   envFolder.add(envParams, 'wave_height', 0, 1).step(0.1)
   envFolder.add(envParams, 'wave_dia', 0, 10).step(1)
 
@@ -230,6 +234,7 @@ function initGUI() {
 function init() {
   // initialize the scene
   scene = new THREE.Scene();
+  scene.background = new THREE.Color(envParams.background_color);
   camera = new THREE.PerspectiveCamera(
     35,
     window.innerWidth / window.innerHeight,
