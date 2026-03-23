@@ -123,6 +123,7 @@ function createTree() {
 }
 
 function createWave() {
+  // Wave Vase
   for (let i = 0; i < box_num; i++) {
     const connectionMesh = new THREE.Mesh(
       new THREE.TorusGeometry(
@@ -133,10 +134,13 @@ function createWave() {
     )
     // connectionMesh.position.y = root_height * 2 + Math.pow(i / 100, 1/i)
     // connectionMesh.position.y = root_height * 2 + (box_num - i) * (box_num - i) / 3000
-    connectionMesh.position.y = root_height * 2 + wavePos.sort()[box_num - i] * wavePos.sort()[box_num - i] / 100
+    const factor_y = wavePos.sort()[box_num - i]
+    connectionMesh.position.y = root_height * 2 + factor_y * factor_y / 100
     connectionMesh.rotateX(degToRad(90));
     scene.add(connectionMesh)
   }
+
+  // Wave
   for (let i = 0; i < box_num; i++) {
     // Create a torus
     const geometry = new THREE.TorusGeometry(
@@ -182,6 +186,7 @@ function initGUI() {
   const treeFolder = gui.addFolder('Tree Setting')
   const branchFolder = gui.addFolder('Branch Setting')
   const envFolder = gui.addFolder('Environment Setting')
+
   treeFolder.add(treeParams, 'branch_angle', 0, 180).step(1).onFinishChange(createTree)
   treeFolder.add(treeParams, 'tree_depth', 2, 8).step(1).onFinishChange(createTree)
   treeFolder.add(treeParams, 'randomBranch').onChange(createTree)
@@ -189,13 +194,20 @@ function initGUI() {
   treeFolder.addColor(treeParams, 'leaf_color').onChange((val) => {
     leaves.forEach(leaf => leaf.material.color.set(val));
   })
-  treeFolder.add(treeParams, 'num_branches', 2, 6).step(1).onFinishChange(createTree)
+  treeFolder.add(treeParams, 'num_branches', 2, 3).step(1).onFinishChange(createTree)
   treeFolder.add(treeParams, 'scaling_factor', 0.1, 1).step(0.1).onFinishChange(createTree)
   treeFolder.add(treeParams, 'root_dia_to_height', 0.1, 1).step(0.1).onFinishChange(createTree)
-  branchFolder.addColor(branchParams, 'branch_color').onChange(createTree)
-  branchFolder.add(branchParams, 'wire_frame').onChange(createTree)
-  branchFolder.add(branchParams, 'num_segment', 3, 6).step(1).onFinishChange(createTree)
+
+  // branchFolder.addColor(branchParams, 'branch_color').onChange(createTree)
+  branchFolder.addColor(branchParams, 'branch_color').onChange((val) => {
+    root_trunk.material.color.set(val);
+  })
+  branchFolder.add(branchParams, 'wire_frame').onChange((val) => {
+    root_trunk.material.wireframe = val;
+  })
+  // branchFolder.add(branchParams, 'num_segment', 3, 6).step(1).onFinishChange(createTree)
   branchFolder.add(branchParams, 'dia_to_height', 0.1, 1).step(0.1).onFinishChange(createTree)
+
   envFolder.add(envParams, 'show_stars')
   // envFolder.add(envParams, 'auto_rotation')
   // envFolder.add(envParams, 'show_axis')
@@ -205,7 +217,7 @@ function initGUI() {
     console.log("New Color:", val);
     scene.background.set(val);
   })
-  envFolder.add(envParams, 'wave_height', 0, 1).step(0.1)
+  envFolder.add(envParams, 'wave_height', 0, 2).step(0.1)
   envFolder.add(envParams, 'wave_dia', 0, 10).step(1)
 
   // initialize FPS window
@@ -274,13 +286,16 @@ function renderloop() {
   const elapsedTime = clock.getElapsedTime();
   stats.begin();
   controls.update();
+
+  // update the wave motion using sin function
   if (waves.length > 0) {
     waves.forEach((wave, i) => {
-      let height = Math.sin(waveRoffset[i] + elapsedTime / 2) / 5 + (root_height * 2);
+      let height = Math.sin(waveRoffset[i] + elapsedTime / 2) / 5 * envParams.wave_height + (root_height * 2);
       wave.position.y = height
       wave.rotation.z += waveRotation[i];
     })
   }
+
   renderer.render(scene, camera);
   stats.end();
 };
