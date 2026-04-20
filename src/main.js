@@ -99,11 +99,14 @@ function createBranch(parentMesh, depth, currentDepth = 2) {
 }
 
 function createTree() {
+  leaves.length = 0;
+
   if (root_trunk) {
     scene.remove(root_trunk);
     root_trunk.geometry.dispose();
     root_trunk.material.dispose();
   }
+
   const root_base = new THREE.Mesh(
     new THREE.ConeGeometry(0.2, HEIGHT, SEG * 3),
     branchMat
