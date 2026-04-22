@@ -1,4 +1,4 @@
-# Tree of Life
+# Fractal Tree of Life
 
 > Interactive 3D fractal tree built with Three.js
 
@@ -19,21 +19,21 @@
 
 ## Controls
 
-| Key / Input | Action |
-|---|---|
-| `h` | Toggle GUI and FPS stats panel |
-| `r` | Toggle auto-rotation |
-| Drag | Orbit camera |
-| Scroll | Zoom |
+| Key / Input | Action                         |
+| ----------- | ------------------------------ |
+| `h`         | Toggle GUI and FPS stats panel |
+| `r`         | Toggle auto-rotation           |
+| Drag        | Orbit camera                   |
+| Scroll      | Zoom                           |
 
 ## Tech Stack
 
-| | |
-|---|---|
-| **Renderer** | [Three.js](https://threejs.org/) v0.179 |
-| **Build tool** | [Vite](https://vitejs.dev/) |
-| **GUI** | [lil-gui](https://lil-gui.georgealways.com/) (bundled with Three.js) |
-| **Deploy** | GitHub Pages via `gh-pages` |
+|                |                                                                      |
+| -------------- | -------------------------------------------------------------------- |
+| **Renderer**   | [Three.js](https://threejs.org/) v0.179                              |
+| **Build tool** | [Vite](https://vitejs.dev/)                                          |
+| **GUI**        | [lil-gui](https://lil-gui.georgealways.com/) (bundled with Three.js) |
+| **Deploy**     | GitHub Pages via `gh-pages`                                          |
 
 ## Project Structure
 
@@ -68,6 +68,7 @@ npm run deploy
 ## GUI Parameters
 
 **Tree Settings**
+
 - `branch_angle` — angle between parent and child branches (0–180°)
 - `tree_depth` — recursion depth (2–8); higher values are more expensive
 - `num_branches` — 2 or 3 branches per node
@@ -75,10 +76,12 @@ npm run deploy
 - `show_leaves` / `leaf_color` — toggle and color cube leaves at the deepest level
 
 **Branch Settings**
+
 - `branch_color` — branch material color (mutates shared material, no rebuild)
 - `wire_frame` — toggle wireframe mode
 
 **Environment Settings**
+
 - `background_color` — scene background color
 - `wave_height` / `wave_dia` — scale the animated wave rings
 
