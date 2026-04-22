@@ -2,7 +2,7 @@
 
 > Interactive 3D fractal tree built with Three.js
 
-![tree-of-life](src/images/tree-of-life.png)
+![tree-of-life](src/images/tree-of-life.webp)
 
 ## Live Demo
 
